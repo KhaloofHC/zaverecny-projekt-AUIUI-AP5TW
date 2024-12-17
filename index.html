@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lord of the Rings API Explorer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Lord of the Rings API Explorer</h1>
+    <div id="dropdowns">
+        <label for="category-select">Choose a category:</label>
+        <select id="category-select">
+            <option value="" selected>-- Choose a category --</option>
+            <option value="movies">Movies</option>
+            <option value="characters">Characters</option>
+            <option value="books">Books</option>
+        </select>
+        
+        <div id="item-selection" style="display: none;">
+            <label for="item-select">Choose an option:</label>
+            <select id="item-select"></select>
+        </div>
+        
+        <div id="details-container"></div>
+    </div>
+
+    <div id="history-container">
+        <h3>Search History</h3>
+        <ul id="history-list"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
