@@ -6,7 +6,6 @@ const detailsContainer = document.getElementById('details-container');
 const historyList = document.getElementById('history-list');
 const HISTORY_KEY = 'searchHistory';
 
-// Function to save to search history (only name of the item)
 function saveToHistory(itemType, itemName) {
     const history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
     
@@ -14,15 +13,12 @@ function saveToHistory(itemType, itemName) {
         type: itemType,
         name: itemName,
     };
-
     history.unshift(newEntry);
-    if (history.length > 10) history.pop(); // Limit history to 10 entries
+    if (history.length > 10) history.pop();
 
     localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
     renderHistory();
 }
-
-// Function to display search history
 function renderHistory() {
     const history = JSON.parse(localStorage.getItem(HISTORY_KEY)) || [];
     historyList.innerHTML = '';
@@ -34,32 +30,24 @@ function renderHistory() {
         historyList.appendChild(li);
     });
 }
-
-// Fetch Books
 function fetchBooks() {
     fetch('https://the-one-api.dev/v2/book', { headers: { Authorization: apiKey } })
     .then(response => response.json())
     .then(data => populateDropdown(data.docs, 'book'))
     .catch(error => console.error('Error:', error));
 }
-
-// Fetch Movies
 function fetchMovies() {
     fetch('https://the-one-api.dev/v2/movie', { headers: { Authorization: apiKey } })
     .then(response => response.json())
     .then(data => populateDropdown(data.docs, 'movie'))
     .catch(error => console.error('Error:', error));
 }
-
-// Fetch Characters
 function fetchCharacters() {
     fetch('https://the-one-api.dev/v2/character', { headers: { Authorization: apiKey } })
     .then(response => response.json())
     .then(data => populateDropdown(data.docs, 'character'))
     .catch(error => console.error('Error:', error));
 }
-
-// Populate Dropdown
 function populateDropdown(items, type) {
     itemSelect.innerHTML = '';
     itemSelectionDiv.style.display = 'block';
@@ -82,8 +70,6 @@ function populateDropdown(items, type) {
         if (selectedType === 'book') fetchBookDetails(selectedId, selectedName);
     };
 }
-
-// Fetch Movie Details
 function fetchMovieDetails(movieId, movieName) {
     fetch(`https://the-one-api.dev/v2/movie/${movieId}`, { headers: { Authorization: apiKey } })
     .then(response => response.json())
@@ -101,8 +87,6 @@ function fetchMovieDetails(movieId, movieName) {
         saveToHistory('Movie', movieName);
     });
 }
-
-// Fetch Character Details
 function fetchCharacterDetails(characterId, characterName) {
     fetch(`https://the-one-api.dev/v2/character/${characterId}`, { headers: { Authorization: apiKey } })
     .then(response => response.json())
@@ -122,8 +106,6 @@ function fetchCharacterDetails(characterId, characterName) {
         saveToHistory('Character', characterName);
     });
 }
-
-// Fetch Book Details
 function fetchBookDetails(bookId) {
     fetch(`https://the-one-api.dev/v2/book/${bookId}`, {
         headers: { Authorization: apiKey }
@@ -148,16 +130,13 @@ function fetchBookDetails(bookId) {
             `;
 
             detailsContainer.innerHTML = detailsHTML;
-
-            // Uložení do historie
+            
             saveToHistory('book', book.name, detailsHTML);
         });
     })
     .catch(error => console.error('Chyba při načítání detailů knihy:', error));
 }
 
-
-// Event Listener for Category Selection
 categorySelect.addEventListener('change', () => {
     const selectedCategory = categorySelect.value;
 
@@ -166,5 +145,4 @@ categorySelect.addEventListener('change', () => {
     if (selectedCategory === 'books') fetchBooks();
 });
 
-// Render history on page load
 renderHistory();
